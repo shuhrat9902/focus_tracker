@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1625">
+  <title>Focus Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header><div><p class="eyebrow">FOCUS TRACKER</p><h1 id="pageTitle">Сегодня</h1></div><button id="settingsBtn" class="icon-btn" aria-label="Настройки">⚙</button></header>
+    <main>
+      <section id="dashboardView" class="view active">
+        <div id="connectionNotice" class="notice hidden">Подключите Google Apps Script в настройках, чтобы начать.</div>
+        <article class="timer-card">
+          <div class="timer-top"><span id="timerMode" class="pill">РАБОТА</span><span id="timerStatus">Готов</span></div>
+          <div id="timerValue" class="timer-value">25:00</div>
+          <div class="progress"><i id="timerProgress"></i></div>
+          <p id="timerHint">Выберите задачу и начните фокус-сессию</p>
+        </article>
+        <article id="currentTaskCard" class="card current-task hidden">
+          <p class="label">ТЕКУЩАЯ ЗАДАЧА</p><h2 id="currentTaskTitle"></h2><p id="currentTaskMeta" class="muted"></p>
+        </article>
+        <article id="noTaskCard" class="empty card"><div class="empty-icon">◎</div><h2>Нет активной задачи</h2><p>Создайте задачу, чтобы начать работать в фокусе.</p><button class="primary" data-action="new-task">Создать задачу</button></article>
+        <div class="actions">
+          <button id="startBtn" class="primary" disabled>Start</button><button id="pauseBtn" class="secondary hidden">Pause</button><button id="resumeBtn" class="primary hidden">Resume</button>
+          <button id="finishBtn" class="danger-outline hidden">Finish Task</button><button id="changeTaskBtn" class="text-btn hidden">Сменить задачу</button>
+        </div>
+        <p id="cycleInfo" class="center muted">Рабочий цикл 1 из 4</p>
+      </section>
+
+      <section id="tasksView" class="view">
+        <div class="section-head"><p class="muted">Все ваши задачи</p><button class="primary compact" data-action="new-task">+ Создать</button></div><div id="tasksList" class="stack"></div>
+      </section>
+      <section id="reportsView" class="view">
+        <div id="reportsContent"><p class="muted">Загрузка отчёта…</p></div>
+      </section>
+    </main>
+    <nav><button class="nav-item active" data-view="dashboardView"><span>◉</span>Сегодня</button><button class="nav-item" data-view="tasksView"><span>☷</span>Задачи</button><button class="nav-item" data-view="reportsView"><span>▥</span>Отчёты</button></nav>
+  </div>
+
+  <dialog id="taskDialog"><form id="taskForm" method="dialog" class="modal"><div class="modal-head"><h2 id="taskDialogTitle">Новая задача</h2><button type="button" class="close" data-close="taskDialog">×</button></div><input type="hidden" id="taskId"><label>Название задачи<input id="taskTitle" required maxlength="150" placeholder="Например, подготовить отчёт"></label><label>Категория<select id="taskCategory" required></select></label><label>Планируемое время, минут<input id="taskMinutes" type="number" min="1" step="5" value="60" required inputmode="numeric"></label><button class="primary" type="submit">Сохранить</button></form></dialog>
+  <dialog id="taskPicker"><div class="modal"><div class="modal-head"><h2>Выберите задачу</h2><button class="close" data-close="taskPicker">×</button></div><div id="pickerList" class="stack"></div><button class="secondary" data-action="new-task">+ Новая задача</button></div></dialog>
+  <dialog id="pauseDialog"><div class="modal"><h2>Почему вы остановили работу?</h2><p class="muted">Выберите причину отвлечения</p><div id="reasonList" class="reason-grid"></div></div></dialog>
+  <dialog id="breakDialog"><div class="modal center-modal"><div class="empty-icon">☕</div><h2 id="breakTitle">Время отдохнуть</h2><p id="breakText" class="muted"></p><button id="startBreakBtn" class="primary">Начать перерыв</button><button id="skipBreakBtn" class="text-btn">Пропустить</button></div></dialog>
+  <dialog id="settingsDialog"><form id="settingsForm" method="dialog" class="modal"><div class="modal-head"><h2>Подключение API</h2><button type="button" class="close" data-close="settingsDialog">×</button></div><label>URL Google Apps Script Web App<input id="apiUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec"></label><p class="hint">URL сохраняется только в настройках этого браузера. Данные остаются в Google Sheets.</p><button class="primary" type="submit">Подключить</button><button type="button" id="reloadBtn" class="text-btn">Обновить данные</button></form></dialog>
+  <div id="toast" role="status"></div><script src="app.js"></script>
+</body>
+</html>
