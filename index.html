@@ -27,6 +27,7 @@
         <div class="actions">
           <button id="startBtn" class="primary" disabled>Start</button><button id="pauseBtn" class="secondary hidden">Pause</button><button id="resumeBtn" class="primary hidden">Resume</button>
           <button id="finishBtn" class="danger-outline hidden">Finish Task</button><button id="changeTaskBtn" class="text-btn hidden">Сменить задачу</button>
+          <button id="quickLogBtn" class="secondary">+ Quick Log</button>
         </div>
         <p id="cycleInfo" class="center muted">Рабочий цикл 1 из 4</p>
       </section>
@@ -34,17 +35,23 @@
       <section id="tasksView" class="view">
         <div class="section-head"><p class="muted">Все ваши задачи</p><button class="primary compact" data-action="new-task">+ Создать</button></div><div id="tasksList" class="stack"></div>
       </section>
+      <section id="timeLogView" class="view">
+        <div class="section-head"><p class="muted">Весь учтённый день</p><button id="timeLogNewBtn" class="primary compact">+ Добавить</button></div>
+        <div id="timeLogPrompt"></div>
+        <div id="timeEntriesList" class="stack"></div>
+      </section>
       <section id="reportsView" class="view">
         <div id="reportsContent"><p class="muted">Загрузка отчёта…</p></div>
       </section>
     </main>
-    <nav><button class="nav-item active" data-view="dashboardView"><span>◉</span>Сегодня</button><button class="nav-item" data-view="tasksView"><span>☷</span>Задачи</button><button class="nav-item" data-view="reportsView"><span>▥</span>Отчёты</button></nav>
+    <nav><button class="nav-item active" data-view="dashboardView"><span>◉</span>Сегодня</button><button class="nav-item" data-view="tasksView"><span>☷</span>Задачи</button><button class="nav-item" data-view="timeLogView"><span>◷</span>Time Log</button><button class="nav-item" data-view="reportsView"><span>▥</span>Отчёты</button></nav>
   </div>
 
   <dialog id="taskDialog"><form id="taskForm" method="dialog" class="modal"><div class="modal-head"><h2 id="taskDialogTitle">Новая задача</h2><button type="button" class="close" data-close="taskDialog">×</button></div><input type="hidden" id="taskId"><label>Название задачи<input id="taskTitle" required maxlength="150" placeholder="Например, подготовить отчёт"></label><label>Категория<select id="taskCategory" required></select></label><label>Планируемое время, минут<input id="taskMinutes" type="number" min="1" step="1" value="60" required inputmode="numeric"></label><button class="primary" type="submit">Сохранить</button></form></dialog>
   <dialog id="taskPicker"><div class="modal"><div class="modal-head"><h2>Выберите задачу</h2><button class="close" data-close="taskPicker">×</button></div><div id="pickerList" class="stack"></div><button class="secondary" data-action="new-task">+ Новая задача</button></div></dialog>
   <dialog id="pauseDialog"><div class="modal"><h2>Почему вы остановили работу?</h2><p class="muted">Выберите причину отвлечения</p><div id="reasonList" class="reason-grid"></div></div></dialog>
   <dialog id="breakDialog"><div class="modal center-modal"><div class="empty-icon">☕</div><h2 id="breakTitle">Время отдохнуть</h2><p id="breakText" class="muted"></p><button id="startBreakBtn" class="primary">Начать перерыв</button><button id="skipBreakBtn" class="text-btn">Пропустить</button></div></dialog>
+  <dialog id="timeLogDialog"><form id="timeLogForm" class="modal"><div class="modal-head"><h2>Time Log</h2><button type="button" class="close" data-close="timeLogDialog">×</button></div><p id="timeLogInfo" class="muted"></p><label>Начало интервала<input id="logStart" type="datetime-local" required></label><label>Конец интервала<input id="logEnd" type="datetime-local" required></label><div id="logActivities" class="log-activities"></div><button type="button" id="addActivityBtn" class="secondary compact">+ Добавить ещё активность</button><p id="logValidation" class="hint"></p><button class="primary" type="submit">Сохранить</button></form></dialog>
   <dialog id="settingsDialog"><form id="settingsForm" method="dialog" class="modal"><div class="modal-head"><h2>Настройки</h2><button type="button" class="close" data-close="settingsDialog">×</button></div><label>Рабочий цикл, минут<input id="workMinutes" type="number" min="1" step="1" required inputmode="numeric"></label><label>Короткий отдых, минут<input id="shortBreakMinutes" type="number" min="1" step="1" required inputmode="numeric"></label><label>Длинный отдых, минут<input id="longBreakMinutes" type="number" min="1" step="1" required inputmode="numeric"></label><label>URL Google Apps Script Web App<input id="apiUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec"></label><p class="hint">Настройки сохраняются только в этом браузере. Данные задач остаются в Google Sheets.</p><button class="primary" type="submit">Сохранить настройки</button><button type="button" id="reloadBtn" class="text-btn">Обновить данные</button></form></dialog>
   <div id="toast" role="status"></div><script src="app.js"></script>
 </body>
