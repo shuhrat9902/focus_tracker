@@ -1,0 +1,2 @@
+/* Prevent duplicate taps while Google Apps Script processes a request. */
+.is-busy button { pointer-events: none; opacity: .6; }
